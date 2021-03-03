@@ -1,0 +1,47 @@
+[
+  {
+    "Username": "Lola",
+    "Gender": "female",
+    "DateOfBirth": "1994-02-21",
+    "Password": "password",
+    "KnownAs": "Lola",
+    "Created": "2017-08-02",
+    "City": "Efland",
+    "Country": "Burundi"
+    
+  },
+  {
+    "Username": "Dorothy",
+    "Gender": "female",
+    "DateOfBirth": "1979-04-19",
+    "Password": "password",
+    "KnownAs": "Dorothy",
+    "Created": "2017-01-21",
+    "LastActive": "2017-01-21",
+    "City": "Deseret",
+    "Country": "Mongolia"
+  },
+  {
+    "Username": "Reba",
+    "Gender": "female",
+    "DateOfBirth": "1984-12-05",
+    "Password": "password",
+    "KnownAs": "Reba",
+    "Created": "2017-06-24",
+    "LastActive": "2017-06-24",
+    "City": "Hannasville",
+    "Country": "Poland"
+  },
+  {
+    "Username": "Annmarie",
+    "Gender": "female",
+    "DateOfBirth": "1970-02-25",
+    "Password": "password",
+    "KnownAs": "Annmarie",
+    "Created": "2017-07-17",
+    "LastActive": "2017-07-17",  
+    "City": "Sutton",
+    "Country": "Bouvet Island"
+    
+  }
+]
