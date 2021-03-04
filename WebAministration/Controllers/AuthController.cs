@@ -41,16 +41,17 @@ namespace WebAdministration.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            var userToCreate = _mapper.Map<User>(userForRegisterDto);
+                var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+                var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
-            var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
+                var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
 
             if (result.Succeeded)
             {
-                return CreatedAtRoute("GetUser",
-                    new { controller = "Users", id = userToCreate.Id }, userToReturn);
+                return CreatedAtRoute(routeName:"GetUser",
+                    routeValues:new { controller = "Users", id = userToCreate.Id }, 
+                    value:userToReturn);
             }
 
             return BadRequest(result.Errors);

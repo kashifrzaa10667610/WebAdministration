@@ -35,7 +35,7 @@ namespace WebAdministration.Controllers
         }
 
         [Authorize]
-        [HttpGet("getuser/{id}")]
+        [HttpGet("{id}", Name="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
@@ -47,6 +47,21 @@ namespace WebAdministration.Controllers
                 return Ok(userToReturn);
             }
             return Unauthorized();    
+        }
+
+        [Authorize]
+        [HttpGet("userById/{id}")]
+        public async Task<IActionResult> UserById(int id)
+        {
+            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
+            if ((id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                || (User.IsInRole("Admin")))
+            {
+                var user = await _repo.GetUser(id, isCurrentUser);
+                var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+                return Ok(userToReturn);
+            }
+            return Unauthorized();
         }
 
         [Authorize]
