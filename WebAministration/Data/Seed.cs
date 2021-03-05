@@ -37,7 +37,8 @@ namespace WebAdministration.Data
 
                 var adminUser = new User
                 {
-                    UserName = "Admin"
+                    UserName = "Admin",
+                    Email="admin@gmail.com"
                 };
 
                 IdentityResult result = userManager.CreateAsync(adminUser, "password").Result;

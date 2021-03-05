@@ -1,10 +1,11 @@
 [
   {
     "Username": "Lola",
+    "Email":"Lolaabc@gmail.com",
     "Gender": "female",
     "DateOfBirth": "1994-02-21",
     "Password": "password",
-    "KnownAs": "Lola",
+    "Name": "Lola",
     "Created": "2017-08-02",
     "City": "Efland",
     "Country": "Burundi"
@@ -12,10 +13,11 @@
   },
   {
     "Username": "Dorothy",
+    "Email":"Dorothyabc@gmail.com",
     "Gender": "female",
     "DateOfBirth": "1979-04-19",
     "Password": "password",
-    "KnownAs": "Dorothy",
+    "Name": "Dorothy",
     "Created": "2017-01-21",
     "LastActive": "2017-01-21",
     "City": "Deseret",
@@ -23,10 +25,11 @@
   },
   {
     "Username": "Reba",
+    "Email":"Rebaabc@gmail.com",
     "Gender": "female",
     "DateOfBirth": "1984-12-05",
     "Password": "password",
-    "KnownAs": "Reba",
+    "Name": "Reba",
     "Created": "2017-06-24",
     "LastActive": "2017-06-24",
     "City": "Hannasville",
@@ -34,10 +37,11 @@
   },
   {
     "Username": "Annmarie",
+    "Email":"Annmaridabc@gmail.com",
     "Gender": "female",
     "DateOfBirth": "1970-02-25",
     "Password": "password",
-    "KnownAs": "Annmarie",
+    "Name": "Annmarie",
     "Created": "2017-07-17",
     "LastActive": "2017-07-17",  
     "City": "Sutton",

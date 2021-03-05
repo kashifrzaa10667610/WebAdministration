@@ -23,7 +23,7 @@ namespace WebAdministration
                     var context = services.GetRequiredService<DataContext>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var roleManager = services.GetRequiredService<RoleManager<Role>>();
-                    //context.Database.Migrate();
+                    //context.Database.EnsureCreated();
                     //Seed.SeedUsers(userManager, roleManager);
                 }
                 catch (Exception ex)

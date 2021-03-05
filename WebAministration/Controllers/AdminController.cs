@@ -81,8 +81,10 @@ namespace DatingApp.API.Controllers
 
             if (!result.Succeeded)
                 return BadRequest("Failed to remove the roles");
-
-            return Ok(await _userManager.GetRolesAsync(user));
+            var userToReturn=_mapper.Map<UserForDetailedDto>(user);
+            var userrole=await _userManager.GetRolesAsync(user);
+            userToReturn.userRoles=userrole;
+            return Ok(userToReturn);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
@@ -99,9 +101,10 @@ namespace DatingApp.API.Controllers
                 }
                 
             }
-            
+           // var rles=_roleManager.Roles.ToList();
+           // var item =await _userManager.GetUsersInRoleAsync();
             await _roleManager.CreateAsync(new Role { Name = newRole });
-            return Ok(_roleManager.Roles.ToList());
+            return Ok(_mapper.Map<IEnumerable<RoleListDto>>(_roleManager.Roles.ToList()));
 
         }
 
@@ -115,7 +118,7 @@ namespace DatingApp.API.Controllers
                 return BadRequest("Role deos not exist");
             }
             await _roleManager.DeleteAsync(role);
-            return Ok(_roleManager.Roles.ToList());
+            return Ok(_mapper.Map<IEnumerable<RoleListDto>>(_roleManager.Roles.ToList()));
 
         }
 

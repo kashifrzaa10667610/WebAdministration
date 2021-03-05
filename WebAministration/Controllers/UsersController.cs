@@ -20,18 +20,22 @@ namespace WebAdministration.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly IUserRepository _repo;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository repo, IMapper mapper, 
+        public UsersController(IUserRepository repo,
+            IMapper mapper, 
             RoleManager<Role> roleManager,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _mapper = mapper;
             _repo = repo;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager=signInManager;
         }
 
         [Authorize]
@@ -82,7 +86,13 @@ namespace WebAdministration.Controllers
             return Unauthorized();
                 
         }
-
-       
+        // [Authorize]
+        // [HttpPost("logout")]
+        // public async Task<IActionResult> Logout()
+        // {
+            
+        //     await _signInManager.SignOutAsync();
+        //     return Ok("user successfully logged out");
+        // }    
     }
 }
