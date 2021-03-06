@@ -1,12 +1,16 @@
 export interface User {
-    id: number;
-    userName: string;
-    knownAs: string;
-    age: number;
-    gender: string;
-    created: Date;
-    lastActive: Date;
-    city: string;
-    country: string;
+    id?: number;
+    username?: string;
+    password?:string,
+    confirmPassword?:string,
+    gender?:string,
+    name?:string,
+    email?:string,
+    dateOfBirth?:string,
+    city?:string,
+    country?:string
+    created?: Date;
+    lastActive?: Date;
+    
     roles?: string[];
   }

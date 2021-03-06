@@ -15,7 +15,7 @@ export class AuthService {
   baseUrl = environment.apiUrl + "auth/";
   jwtHelper = new JwtHelperService();
   decodedToken: any;
-  currentUser!: User;
+  currentUser: User;
 
   constructor(private http: HttpClient) {}
 

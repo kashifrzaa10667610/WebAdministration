@@ -32,12 +32,8 @@ export class SignupComponent implements OnInit {
     this.registerForm = 
     this.formBuilder.group(
       {
-        gender: ["male"],
+        
         username: ["", Validators.required],
-        knownAs: ["", Validators.required],
-        dateOfBirth: ["", Validators.required],
-        city: ["", Validators.required],
-        country: ["", Validators.required],
         password: [
           "",
           [
@@ -46,7 +42,14 @@ export class SignupComponent implements OnInit {
             Validators.maxLength(8)
           ]
         ],
-        confirmPassword: ["", Validators.required]
+        confirmPassword: ["", Validators.required],
+        gender: ["male"],
+        name: ["", Validators.required],
+        email:["", Validators.required],
+        dateOfBirth: ["", Validators.required],
+        city: ["", Validators.required],
+        country: ["", Validators.required],
+       
       },
       
     );

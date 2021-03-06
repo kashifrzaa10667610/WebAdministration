@@ -109,10 +109,10 @@ namespace DatingApp.API.Controllers
         }
 
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpPost("deleteRole")]
-        public async Task<IActionResult> DeleteRole(RoleDeleteDto roleDeleteDto)
+        [HttpDelete("deleteRole/{roleName}")]
+        public async Task<IActionResult> DeleteRole(string roleName)
         {
-            var role = await _roleManager.FindByNameAsync(roleDeleteDto.RoleName);
+            var role = await _roleManager.FindByNameAsync(roleName);
             if (role==null) 
             {
                 return BadRequest("Role deos not exist");

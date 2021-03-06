@@ -41,11 +41,19 @@ namespace WebAdministration.Data
         {
             var users = _context.Users.Include(r=>r.UserRoles).ThenInclude(r=>r.Role)
                 .OrderByDescending(u => u.LastActive).AsQueryable();
-            //if(userParams.Role!=null)
-            //{
-            //    users = users.Where(u => u.UserRoles.Where(c=>c.Role.Name==userParams.Role));
-            //}
+            
             users = users.Where(u => u.Id != userParams.UserId);
+
+            if (!string.IsNullOrEmpty(userParams.Gender))
+            {
+                users = users.Where(u => u.Gender == userParams.Gender);
+            }
+
+            if (!string.IsNullOrEmpty(userParams.RoleName)) 
+            {
+                users=users.Include(t => t.UserRoles).Where(t => t.UserRoles.Any(x => x.Role.Name == userParams.RoleName));
+            }
+
             if (!string.IsNullOrEmpty(userParams.OrderBy))
             {
                 switch (userParams.OrderBy)
@@ -58,6 +66,7 @@ namespace WebAdministration.Data
                         break;
                 }
             }
+            
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
 

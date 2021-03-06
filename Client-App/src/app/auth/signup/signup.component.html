@@ -33,17 +33,31 @@
       />
       <div class="invalid-feedback" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')">Please, choose a username</div>
     </div>
-  
     <div class="form-group">
       <input
-        [ngClass]="{'is-invalid': registerForm.get('knownAs')?.errors && registerForm.get('knownAs')?.touched}"
+        [ngClass]="{'is-invalid': registerForm.get('email')?.errors && registerForm.get('email')?.touched}"
         class="form-control"
-        placeholder="Known as"
-        formControlName="knownAs"
+        placeholder="Email"
+        formControlName="email"
       />
       <div
         class="invalid-feedback"
-        *ngIf="registerForm.get('knownAs')?.touched && registerForm.get('knownAs')?.hasError('required')"
+        *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('required')"
+      >
+        Email is required
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <input
+        [ngClass]="{'is-invalid': registerForm.get('name')?.errors && registerForm.get('name')?.touched}"
+        class="form-control"
+        placeholder="Name"
+        formControlName="name"
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')"
       >
         Known as is required
       </div>
@@ -80,6 +94,7 @@
         City is required
       </div>
     </div>
+   
   
     <div class="form-group">
       <input

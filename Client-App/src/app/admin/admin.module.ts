@@ -5,8 +5,6 @@ import { RolesManagementComponent } from './roles-management/roles-management.co
 import { UserManagementComponent } from './user-management/user-management.component';
 import { AdminRoutingModule } from './admin-routing/admin-routing.module';
 
-
-
 @NgModule({
   imports: [CommonModule, AdminRoutingModule],
   declarations: [

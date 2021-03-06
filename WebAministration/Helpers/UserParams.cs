@@ -18,7 +18,8 @@ namespace WebAdministration.Helpers
 
         public int UserId { get; set; }
         public string OrderBy { get; set; }
-       // public string? Role { get; set; }
+        public string RoleName { get; set; }
+        public string Gender{get;set;}
         
     }
 }
