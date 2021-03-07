@@ -19,7 +19,8 @@ namespace WebAdministration.Data
                 {
                     new Role{Name = "Member"},
                     new Role{Name = "Admin"},
-                    new Role{Name = "Moderator"},
+                    new Role{Name="HelpDesk"},                   
+                    new Role{Name = "Account"},
                     new Role{Name = "VIP"},
                 };
 
@@ -32,22 +33,35 @@ namespace WebAdministration.Data
                 {
                 
                     userManager.CreateAsync(user, "password").Wait();
-                    userManager.AddToRoleAsync(user, "Member").Wait();
+                    userManager.AddToRoleAsync(user, roles[0].Name).Wait();
                 }
 
-                var adminUser = new User
+                List<User> adminHelpDesk=new List<User>();
+                
+                adminHelpDesk.Add( 
+                    new User
+                    {
+                       UserName = "Admin",
+                       Email="admin@gmail.com"
+                    }
+                );
+                adminHelpDesk.Add(
+                    new User
+                    {
+                       UserName="HelpDesk",
+                       Email="helpdesk@gmail.com"
+                    }
+                );
+             
+                foreach(User user in adminHelpDesk)
                 {
-                    UserName = "Admin",
-                    Email="admin@gmail.com"
-                };
-
-                IdentityResult result = userManager.CreateAsync(adminUser, "password").Result;
-
-                if (result.Succeeded)
-                {
-                    var admin = userManager.FindByNameAsync("Admin").Result;
-                    userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" }).Wait();
+                    if (userManager.CreateAsync(user, "password").Result.Succeeded)
+                    {
+                        var role = userManager.FindByNameAsync(user.UserName).Result;
+                        userManager.AddToRolesAsync(role, new[] { user.UserName,"Member" }).Wait();
+                    }
                 }
+                
             }
         }
     }

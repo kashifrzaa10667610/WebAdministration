@@ -18,12 +18,12 @@ export class AdminService {
     private http: HttpClient
   ) { }
 
-  getUsersWithRoles() {
-    return this.http.get(this.baseUrl + 'admin/usersWithRoles');
-  }
+  // getUsersWithRoles() {
+  //   return this.http.get(this.baseUrl + 'admin/usersWithRoles');
+  // }
 
 
-  getUsers(page?, itemsPerPage?, userParams?, likeParam?): Observable<PaginatedResult<User[]>> {
+  getUsersWithRoles(page?, itemsPerPage?, userParams?, likeParam?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -38,7 +38,7 @@ export class AdminService {
       params = params.append('orderBy', userParams.orderBy);
     }
 
-    return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params})
+    return this.http.get<User[]>(this.baseUrl + 'admin/usersWithRoles', { observe: 'response', params})
       .pipe(
         map(response => {
           paginatedResult.result = response.body;

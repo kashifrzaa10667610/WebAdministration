@@ -44,7 +44,7 @@ namespace WebAdministration.Controllers
         {
             var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
             if ((id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                || (User.IsInRole("Admin")))
+                || (User.IsInRole("Admin"))||(User.IsInRole("HelpDesk")))
             {
                 var user = await _repo.GetUser(id, isCurrentUser);
                 var userToReturn = _mapper.Map<UserForDetailedDto>(user);
@@ -53,13 +53,13 @@ namespace WebAdministration.Controllers
             return Unauthorized();    
         }
 
-        [Authorize]
+        [Authorize("Require-Member-Admin-HelpDesk-Role")]
         [HttpGet("userById/{id}")]
         public async Task<IActionResult> UserById(int id)
         {
             var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
             if ((id == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                || (User.IsInRole("Admin")))
+                || (User.IsInRole("Admin"))||(User.IsInRole("HelpDesk")))
             {
                 var user = await _repo.GetUser(id, isCurrentUser);
                 var userToReturn = _mapper.Map<UserForDetailedDto>(user);
@@ -68,7 +68,7 @@ namespace WebAdministration.Controllers
             return Unauthorized();
         }
 
-        [Authorize]
+        [Authorize("Require-Admin-Member-Role")]
         [HttpPut("updateuser/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
         {

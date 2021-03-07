@@ -49,6 +49,13 @@ namespace WebAdministration.Controllers
 
             if (result.Succeeded)
             {
+                //assign role to newly registered user and make changes to return object
+                var user = await _userManager.FindByNameAsync(userToReturn.Username);
+                _userManager.AddToRoleAsync(user, "Member").Wait();     
+                var userRoles = await _userManager.GetRolesAsync(user);   
+                userToReturn.userRoles=userRoles;
+
+
                 return CreatedAtRoute(routeName:"GetUser",
                     routeValues:new { controller = "Users", id = userToCreate.Id }, 
                     value:userToReturn);
@@ -83,7 +90,7 @@ namespace WebAdministration.Controllers
                 return BadRequest("Account locked out");
             }
 
-            return Unauthorized();
+            return Unauthorized("singin not success, Password incorrect");
         }
 
         private async Task<string> GenerateJwtToken(User user)

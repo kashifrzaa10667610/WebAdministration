@@ -87,9 +87,21 @@ namespace WebAdministration
 
             services.AddAuthorization(options =>
             {
+                //RolePolicy For Andmin and HelpDesk
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
-                options.AddPolicy("VipOnly", policy => policy.RequireRole("VIP"));
+                options.AddPolicy("RequireHelpDeskRole",policy=>policy.RequireRole("HelpDesk"));
+                options.AddPolicy("Require-Admin-HelpDesk-Role", policy => policy.RequireRole("Admin", "HelpDesk"));
+                options.AddPolicy("Require-Admin-Member-Role",policy=>policy.RequireRole("Admin","Member"));
+
+                options.AddPolicy("Require-Member-Admin-HelpDesk-Role",policy=>policy.RequireRole("Member","Admin", "HelpDesk"));
+
+
+                //Role Policy fpr users
+                options.AddPolicy("MemberOnly", policy => policy.RequireRole("Member"));
+                options.AddPolicy("Member-VIP", policy=>policy.RequireRole( "Member","VIP"));
+                options.AddPolicy("Member-Account-VIP",policy=>policy.RequireRole("Member","Account","VIP"));
+                options.AddPolicy("Member-Account",policy=>policy.RequireRole("Member","Account"));
+
             });
 
             services.AddMvc(options =>

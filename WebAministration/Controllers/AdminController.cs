@@ -42,7 +42,7 @@ namespace DatingApp.API.Controllers
             
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
         [HttpGet("userswithRole")]
         public async Task<IActionResult> GetUsersWithRole([FromQuery] UserParams userParams)
         {
@@ -147,6 +147,21 @@ namespace DatingApp.API.Controllers
                 return Ok(user);
             }
 
+        }
+        
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpDelete("deleteUser/{userName}")]
+        public async Task<IActionResult> DeleteUser(string userName)
+        {
+        var user = await _userManager.FindByNameAsync(userName);
+
+        IdentityResult result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded)
+        {
+           return RedirectToAction("GetUsersWithRole");
+           // return Ok(userName+" account deleted ");
+        }
+        return NotFound("user does not exist");    
         }
     }
 }
