@@ -80,7 +80,6 @@ namespace WebAdministration.Controllers
                 _mapper.Map(userForUpdateDto, userFromRepo);
                 if (await _repo.SaveAll())
                     return NoContent();
-
                 throw new Exception($"Updating user {id} failed on save");
             }
             return Unauthorized();
