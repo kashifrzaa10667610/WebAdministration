@@ -3,7 +3,7 @@
     <hr />
   
     <div class="form-group">
-      <label class="control-label" style="margin-right:10px">I am a: </label>
+      <label class="control-label" style="margin-right:10px">Gender</label>
       <label class="radio-inline">
         <input
           class="mr-3"
@@ -59,19 +59,16 @@
         class="invalid-feedback"
         *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')"
       >
-        Known as is required
+        Name as is required
       </div>
     </div>
   
     <div class="form-group">
-      <input
-        [ngClass]="{'is-invalid': registerForm.get('dateOfBirth')?.errors && registerForm.get('dateOfBirth')?.touched}"
-        class="form-control"
-        placeholder="Date of Birth"
-        formControlName="dateOfBirth"
-        type="text"
-      />
-  
+      <div class="form-group">
+      <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched}" class="form-control"
+        placeholder="Date of Birth" formControlName="dateOfBirth" type="text" bsDatepicker [bsConfig]="bsConfig">
+      <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">Date of Birth is required</div>
+    </div>
       <div
         class="invalid-feedback"
         *ngIf="registerForm.get('dateOfBirth')?.touched && registerForm.get('dateOfBirth')?.hasError('required')"
@@ -160,7 +157,14 @@
       >
         Password is required
       </div>
+      <div class="invalid-feedback"
+        *ngIf="registerForm.hasError('noMatch') 
+          && registerForm.get('confirmPassword').touched"
+      >Passwords must match</div> 
     </div>
+
+
+   
   
     <div class="form-group text-center">
       <button
@@ -174,5 +178,6 @@
         Cancel
       </button>
     </div>
+
   </form>
   

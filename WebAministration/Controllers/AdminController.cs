@@ -122,7 +122,7 @@ namespace DatingApp.API.Controllers
 
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
         [HttpPost("lockunlock/{userName}")]
         public async Task<IActionResult> LockUnlock(string userName)
         {

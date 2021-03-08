@@ -23,7 +23,7 @@ export class AdminService {
   // }
 
 
-  getUsersWithRoles(page?, itemsPerPage?, userParams?, likeParam?): Observable<PaginatedResult<User[]>> {
+  getUsersWithRoles(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>> {
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -33,8 +33,7 @@ export class AdminService {
 
     if (userParams != null) {
       
-      params = params.append('roleName', userParams.roleName);
-      params = params.append('gender', userParams.gender);
+      params = params.append('roleName', userParams.role);
       params = params.append('orderBy', userParams.orderBy);
     }
 
@@ -53,27 +52,41 @@ export class AdminService {
 
 
 
-  // getUser(id): Observable<User> {
-  //   return this.http.get<User>(this.baseUrl + 'users/' + id );
-  // }
+ 
+
+  createRole(role:{})
+  {
+     return this.http.post(this.baseUrl+ 'admin/createRole/',role);
+  }
+  
+  deleteRole(rolename)
+  {
+    return this.http.delete(this.baseUrl+'admin/deleteRole/', rolename);
+  }
+  lockUnlock(user:User)
+  {
+    return this.http.post(this.baseUrl+'admin/lockunlock/'+user.username, user.username);
+  }
+
 
 
 
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(this.baseUrl + 'admin/editRoles/' + user.username, roles);
   }
-  createRole(role:{})
+  deleteUser(username)
   {
-     return this.http.post(this.baseUrl+ 'admin/createRole/',role);
+    return this.http.delete(this.baseUrl+'admin/deleteUser/',username); 
   }
-  
-  deleteRole(role)
+   getuserbyId(id): Observable<User> {
+    return this.http.get<User>(this.baseUrl + 'users/userById/' + id );
+  }
+
+  updateuserbyId(id: number, user: User)
   {
-    return this.http.delete(this.baseUrl+'admin/deleteRole/', role);
+    return this.http.put(this.baseUrl+'users/updateuser/'+id,user);
+
   }
-  lockUnlock(user:User)
-  {
-    return this.http.post(this.baseUrl+'admin/lockunlock/'+user.username, user.username);
-  }
+
 }
  

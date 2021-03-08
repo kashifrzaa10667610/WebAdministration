@@ -56,7 +56,7 @@ namespace WebAdministration
         public void ConfigureServices(IServiceCollection services)
         {
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
-            {
+            {    
                 opt.Password.RequireDigit = false;
                 opt.Password.RequiredLength = 4;
                 opt.Password.RequireNonAlphanumeric = false;
@@ -87,20 +87,22 @@ namespace WebAdministration
 
             services.AddAuthorization(options =>
             {
-                //RolePolicy For Andmin and HelpDesk
+                //Policy For Andmin and HelpDesk
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
                 options.AddPolicy("RequireHelpDeskRole",policy=>policy.RequireRole("HelpDesk"));
                 options.AddPolicy("Require-Admin-HelpDesk-Role", policy => policy.RequireRole("Admin", "HelpDesk"));
                 options.AddPolicy("Require-Admin-Member-Role",policy=>policy.RequireRole("Admin","Member"));
-
                 options.AddPolicy("Require-Member-Admin-HelpDesk-Role",policy=>policy.RequireRole("Member","Admin", "HelpDesk"));
 
 
-                //Role Policy fpr users
+                // Policy for Members
                 options.AddPolicy("MemberOnly", policy => policy.RequireRole("Member"));
                 options.AddPolicy("Member-VIP", policy=>policy.RequireRole( "Member","VIP"));
                 options.AddPolicy("Member-Account-VIP",policy=>policy.RequireRole("Member","Account","VIP"));
                 options.AddPolicy("Member-Account",policy=>policy.RequireRole("Member","Account"));
+
+                //ClaimPolicy for users
+                 options.AddPolicy("CurrentlyLoggedInUserOnly", policy => policy.RequireClaim("Id"));
 
             });
 
@@ -150,7 +152,6 @@ namespace WebAdministration
                         }
                     });
                 });
-                // app.UseHsts();
             }
 
             //seeder.SeedUsers();

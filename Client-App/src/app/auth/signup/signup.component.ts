@@ -1,9 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import{BsDatepickerConfig} from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-
+  bsConfig:Partial<BsDatepickerConfig>;
   @Output() cancelRegister = new EventEmitter();
   user: User;
   registerForm: FormGroup;
@@ -25,6 +26,10 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.bsConfig = {
+      containerClass: 'theme-red',
+      dateInputFormat: 'DD-MM-YYYY'
+    };
     this.createRegisterForm();
   }
 
@@ -50,7 +55,7 @@ export class SignupComponent implements OnInit {
         city: ["", Validators.required],
         country: ["", Validators.required],
        
-      },
+      },{validator: this.matchPassword}
       
     );
   }
@@ -63,19 +68,28 @@ export class SignupComponent implements OnInit {
       this.authService
         .register(this.user)
         .subscribe(
-          (data) => {
-            console.log(data)},
-            //this.alertifyService.success("Registration successful")},
-          (error) => console.log(error),//this.alertifyService.error(error),
-          () =>
-            this.authService
-              .login(this.user)
-              .subscribe(
-                () => this.router.navigate(["/home"]),
-                (error) => this.alertifyService.error(error)
-              )
+          () => this.alertifyService.success('Registration successful'),
+
+          (error) => this.alertifyService.error(error),
+
+          () => this.authService.login(this.user).subscribe(
+          () => this.router.navigate(['/user']),
+          (error) => this.alertifyService.error(error))
         );
     }
+  }
+  matchPassword(control: AbstractControl): ValidationErrors | null {
+ 
+    const password = control.get("password").value;
+    const confirm = control.get("confirmPassword").value;
+ 
+ 
+    if (password != confirm) 
+    { return { 'noMatch': true }
+    }
+ 
+    return null
+ 
   }
 
   cancel() {
