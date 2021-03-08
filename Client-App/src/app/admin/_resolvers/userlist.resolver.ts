@@ -25,9 +25,11 @@ export class UserlistResolver implements Resolve<User[]> {
   )
   {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> {
+    console.log("hello");
     return this.adminService.getUsersWithRoles(this.pageNumber, this.pageSize,null).pipe(
       catchError(() => {
         this.alertify.error('Problem retrieving data');
+        console.log("hello");
         this.router.navigate(['/home']);
         return of(null);
       })

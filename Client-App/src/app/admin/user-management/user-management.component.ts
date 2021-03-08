@@ -52,6 +52,7 @@ export class UserManagementComponent implements OnInit {
   //   );
   // }
   getUseraWithRoles() {
+    console.log("hello");
     this.adminService
     .getUsersWithRoles(
       this.pagination.currentPage,
@@ -60,7 +61,9 @@ export class UserManagementComponent implements OnInit {
     )
     .subscribe(
       (result: PaginatedResult<User[]>) => {
+        console.log("hello1");
         this.users = result.result;
+        console.log(this.users);
         this.pagination = result.pagination;
       },
       error => this.alertifyService.error(error)

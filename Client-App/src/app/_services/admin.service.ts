@@ -36,13 +36,14 @@ export class AdminService {
       params = params.append('roleName', userParams.role);
       params = params.append('orderBy', userParams.orderBy);
     }
-
-    return this.http.get<User[]>(this.baseUrl + 'admin/usersWithRoles', { observe: 'response', params})
+    console.log("inside admin method");
+    return this.http.get<User[]>(this.baseUrl + 'admin/usersWithRole', { observe: 'response', params})
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
           if (response.headers.get('pagination') != null) {
             paginatedResult.pagination = JSON.parse(response.headers.get('pagination'));
+            console.log(paginatedResult.pagination);
           }
           return paginatedResult;
         })

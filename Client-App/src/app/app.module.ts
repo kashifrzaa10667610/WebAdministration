@@ -33,11 +33,11 @@ export function tokenGetter() {
     AppRoutingModule,
     BrowserAnimationsModule,
     JwtModule.forRoot({
-      // config: {
-      //   tokenGetter: tokenGetter,
-      //   whitelistedDomains: ['localhost:5000'],
-      //   blacklistedRoutes: ['localhost:5000/api/auth']
-      // }
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:5000'],
+        disallowedRoutes: ['localhost:5000/api/auth']
+      }
     })
    ],
   providers: [ErrorInterceptorProvider,HttpRequestInterceptorProvider],
