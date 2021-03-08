@@ -11,7 +11,7 @@ import {PaginationModule} from 'ngx-bootstrap/pagination'
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserlistResolver } from './_resolvers/userlist.resolver';
-
+import {ButtonsModule} from 'ngx-bootstrap/buttons'
 
 @NgModule({
   imports: [CommonModule, 
@@ -20,6 +20,7 @@ import { UserlistResolver } from './_resolvers/userlist.resolver';
   TabsModule.forRoot(),
   PaginationModule.forRoot(),
   BsDropdownModule.forRoot(),
+  ButtonsModule.forRoot(),
   FormsModule,
   ReactiveFormsModule
 ],

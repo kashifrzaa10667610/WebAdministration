@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserRoutingModule } from 'src/app/user/user-routing/user-routing.module';
 import { PaginatedResult, Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -63,7 +64,9 @@ export class UserManagementComponent implements OnInit {
       (result: PaginatedResult<User[]>) => {
         console.log("hello1");
         this.users = result.result;
+        console.log("abc");
         console.log(this.users);
+        console.log("abc");
         this.pagination = result.pagination;
       },
       error => this.alertifyService.error(error)
@@ -83,7 +86,7 @@ export class UserManagementComponent implements OnInit {
       };
       if (rolesToUpdate) {
         this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(
-          () => user.roles = [...rolesToUpdate.roleNames],
+          () => user.userRoles = [...rolesToUpdate.roleNames],
           (error) => this.alertifyService.error(error)
         );
       }
@@ -92,7 +95,7 @@ export class UserManagementComponent implements OnInit {
 
   private getRolesArray(user: User) {
     const roles = [];
-    const userRoles = user.roles;
+    const userRoles = user.userRoles;
     const availableRoles: any[] = [
       {name: 'Admin', value: 'Admin'},
       {name: 'Moderator', value: 'Moderator'},
@@ -126,11 +129,31 @@ export class UserManagementComponent implements OnInit {
 
   lockUnlock(user:User)
   {
+    this.adminService.lockUnlock(user).
+    subscribe((user:User)=>
+      {
+        this.user===user;
+      },
+      error => this.alertifyService.error(error));
 
   }
   deleteUser(user:User)
   {
+    this.adminService.deleteUser(user.username)
+    .subscribe((users)=>
+    {
+      console.log(users);
+    })
 
+  }
+
+  IsLockedout(lockoutEnd)
+  {
+    if(lockoutEnd===null)
+    {
+      return true;
+    }
+    return false;
   }
 
 }

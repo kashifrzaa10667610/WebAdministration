@@ -1,5 +1,5 @@
 <div class="text-center mt-3">
-    <h2>Your matches - {{pagination.totalItems}} found</h2>
+    <h2>Total Users - {{pagination.totalItems}} found</h2>
   </div>
   
   <div class="container mt-3">
@@ -24,7 +24,7 @@
               <button type="button" name="orderBy" class="btn btn-primary" 
                 btnRadio="lastActive" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
               >Last Active</button>
-              <button type="button" name="orderBy" class="btn btn-primary"
+              <button type="button" name="orderBy" class="btn btn-primary" 
                 btnRadio="created" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
               >Newest Members</button>
             </div>
@@ -38,18 +38,18 @@
             <th styles="width: 25%">Name</th>
             <th styles="width: 25%">Roles</th>
             <th styles="width: 25%">LastActive</th>
-            <th styles="width: 10%">Edit</th>
             <th styles="width: 10%">LockUnlock</th>
+            <th styles="width: 10%">EditUser</th>
             <th styles="width: 10%">Delete</th>
           </tr>
           <tr *ngFor="let user of users">
             
-            <td>{{user.name}}</td>
-            <td>{{user.roles}}</td>
+            <td>{{user.username}}</td>
+            <td><button class="btn btn-warning" (click)="editRolesModal(user)">{{user.userRoles}}</button></td>
             <td>{{user.lastActive}}</td>
-            <td><button class="btn btn-info" (click)="lockUnlock(user)">LockUnlock</button></td>
-            <td><button class="btn btn-info" (click)="editRolesModal(user)">Edit</button></td>
-            <td><button class="btn btn-info" (click)="deleteUser(user)">Delete</button></td>
+            <td><button class="btn btn-warning" (click)="lockUnlock(user)">{{ IsLockedout(user.lockoutEnd) ? 'Lock' : 'Unlock' }}</button></td>
+            <td><button class="btn btn-warning" (click)="editRolesModal(user)">Edit</button></td>
+            <td><button class="btn btn-danger" (click)="deleteUser(user)">Delete</button></td>
           </tr>
         </table>
       </div>

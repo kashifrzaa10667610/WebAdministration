@@ -134,7 +134,8 @@ namespace DatingApp.API.Controllers
 
             if( user.LockoutEnd!=null && user.LockoutEnd>DateTime.Now)
             {
-                user.LockoutEnd = DateTime.Now;
+                user.LockoutEnd = null;
+           
                 await _userManager.UpdateAsync(user);
                
 
@@ -158,8 +159,8 @@ namespace DatingApp.API.Controllers
         IdentityResult result = await _userManager.DeleteAsync(user);
         if (result.Succeeded)
         {
-           return RedirectToAction("GetUsersWithRole");
-           // return Ok(userName+" account deleted ");
+          // return RedirectToAction("GetUsersWithRole");
+           return Ok(userName+" account deleted ");
         }
         return NotFound("user does not exist");    
         }

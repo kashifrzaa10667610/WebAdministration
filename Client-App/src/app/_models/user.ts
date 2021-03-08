@@ -13,5 +13,5 @@ export interface User {
     created?: Date;
     lastActive?: Date;
     lockoutEnd?:Date
-    roles?: string[];
+    userRoles?: string[];
   }

@@ -77,7 +77,7 @@ export class AdminService {
   }
   deleteUser(username)
   {
-    return this.http.delete(this.baseUrl+'admin/deleteUser/',username); 
+    return this.http.delete(this.baseUrl+'admin/deleteUser/'+username); 
   }
    getuserbyId(id): Observable<User> {
     return this.http.get<User>(this.baseUrl + 'users/userById/' + id );
