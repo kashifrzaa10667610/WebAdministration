@@ -13,8 +13,9 @@ using WebAdministration.Helpers;
 using System.Security.Claims;
 using System.Collections.Generic;
 
-namespace DatingApp.API.Controllers
+namespace WebAdministration.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [ApiController]
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
@@ -24,8 +25,10 @@ namespace DatingApp.API.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
         private readonly IUserRepository _repo;
+        private readonly DataContext _context;
 
         public AdminController(
+            DataContext context,
             RoleManager<Role> roleManager,
             UserManager<User> userManager,
 
@@ -33,6 +36,7 @@ namespace DatingApp.API.Controllers
             IUserRepository repo)
             
         {
+            _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
 
@@ -40,6 +44,24 @@ namespace DatingApp.API.Controllers
             _repo = repo;
 
             
+        }
+        
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("getRoles")]
+        public  async Task<IActionResult> GetRoles()
+        {
+           var roles=await _roleManager.Roles.ToListAsync();
+           var listob=new List<RoleListDto>();
+           foreach(Role r in roles)
+           {
+               listob.Add(new RoleListDto
+               {
+                   Id=r.Id,
+                   Name=r.Name
+               });
+           }
+           return Ok(listob);
         }
 
         [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
@@ -149,7 +171,34 @@ namespace DatingApp.API.Controllers
             }
 
         }
-        
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPost("createuser")]
+        public async Task<IActionResult> CreateUser(UserCreteDto userCreateDto)
+                {
+            
+            var userToCreate = _mapper.Map<User>(userCreateDto);
+
+            var result = await _userManager.CreateAsync(userToCreate, userCreateDto.Password);
+
+            var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
+            if (result.Succeeded)
+            {
+                //assign role to newly registered user and make changes to return object
+                var user = await _userManager.FindByNameAsync(userToReturn.Username);
+                _userManager.AddToRoleAsync(user, "Member").Wait();
+                var userRoles = await _userManager.GetRolesAsync(user);
+                userToReturn.userRoles = userRoles;
+
+
+                return CreatedAtRoute(routeName: "GetUser",
+                    routeValues: new { controller = "Users", id = userToCreate.Id },
+                    value: userToReturn);
+            }
+
+            return BadRequest(result.Errors);
+
+        }
+
         [Authorize(Policy = "RequireAdminRole")]
         [HttpDelete("deleteUser/{userName}")]
         public async Task<IActionResult> DeleteUser(string userName)
@@ -160,7 +209,7 @@ namespace DatingApp.API.Controllers
         if (result.Succeeded)
         {
           // return RedirectToAction("GetUsersWithRole");
-           return Ok(userName+" account deleted ");
+            return Ok(userName+" account deleted ");
         }
         return NotFound("user does not exist");    
         }

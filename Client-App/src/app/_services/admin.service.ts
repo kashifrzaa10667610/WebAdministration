@@ -68,9 +68,7 @@ export class AdminService {
   {
     return this.http.post(this.baseUrl+'admin/lockunlock/'+user.username, user.username);
   }
-
-
-
+ 
 
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(this.baseUrl + 'admin/editRoles/' + user.username, roles);
@@ -79,7 +77,7 @@ export class AdminService {
   {
     return this.http.delete(this.baseUrl+'admin/deleteUser/'+username); 
   }
-   getuserbyId(id): Observable<User> {
+   getuserbyId(id): Observable<any> {
     return this.http.get<User>(this.baseUrl + 'users/userById/' + id );
   }
 
@@ -87,6 +85,16 @@ export class AdminService {
   {
     return this.http.put(this.baseUrl+'users/updateuser/'+id,user);
 
+  }
+
+  getRols()
+  {
+    return this.http.get(this.baseUrl+'admin/getRoles/');
+
+  }
+  creteUser(user:User)
+  {
+    return this.http.post(this.baseUrl+'admin/createuser',user);
   }
 
 }

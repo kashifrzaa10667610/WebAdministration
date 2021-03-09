@@ -11,7 +11,7 @@ export interface User {
     city?:string,
     country?:string
     created?: Date;
-    lastActive?: Date;
+    lastActive?:string;
     lockoutEnd?:Date
     userRoles?: string[];
   }

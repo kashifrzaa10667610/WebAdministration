@@ -34,6 +34,7 @@ namespace WebAdministration.Helpers
           
             CreateMap<UserForRegisterDto, User>();
             CreateMap<Role, RoleListDto>();
+            CreateMap<UserCreteDto, User>();
 
 
         }

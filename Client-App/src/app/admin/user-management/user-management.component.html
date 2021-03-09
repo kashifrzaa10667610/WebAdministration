@@ -1,7 +1,7 @@
 <div class="text-center mt-3">
+  <h2><button class="btn btn-primary text-center" (click)="addUserModel()">AddUser</button></h2>
     <h2>Total Users - {{pagination.totalItems}} found</h2>
   </div>
-  
   <div class="container mt-3">
     <form class="form-inline" #form="ngForm" (ngSubmit)="getUseraWithRoles()" novalidate>
         
@@ -10,8 +10,8 @@
           <label for="role">Show: </label>
           <select class="form-control ml-1" style="width: 130px" 
             id="role" name="role"  [(ngModel)]="userParams.role">
-            <option *ngFor="let role of roleList" [value]="role.value">
-              {{role.display}}
+            <option *ngFor="let role of availableRoles" [value]="role.value">
+              {{role.name}}
             </option>
           </select>
         </div>
@@ -19,9 +19,9 @@
         <button type="button" class="btn btn-info" style="margin-left:10px"
           (click)="resetFilter()"
           >Reset Filter</button>
-        <div class="col">
+          <div style="margin-left: 450px;" class="form-group px-3">
             <div class="btn-group float-right">
-              <button type="button" name="orderBy" class="btn btn-primary" 
+              <button type="button" name="orderBy" style="margin-right: 10px;" class="btn btn-primary" 
                 btnRadio="lastActive" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
               >Last Active</button>
               <button type="button" name="orderBy" class="btn btn-primary" 
@@ -33,24 +33,29 @@
       <br>  
       <div class="role">
         <table class="table">
+          <thead>
           <tr>
             
-            <th styles="width: 25%">Name</th>
-            <th styles="width: 25%">Roles</th>
-            <th styles="width: 25%">LastActive</th>
-            <th styles="width: 10%">LockUnlock</th>
-            <th styles="width: 10%">EditUser</th>
-            <th styles="width: 10%">Delete</th>
+            <th >UserName</th>
+            <th >Roles</th>
+            <th >LastActive</th>
+            <th >Lock</th>
+            <th >EditUser</th>
+            <th>Delete</th>
           </tr>
+        </thead>
+        <tbody>
           <tr *ngFor="let user of users">
             
-            <td>{{user.username}}</td>
+            <td><button class="btn btn-warning">{{user.username}}</button></td>
             <td><button class="btn btn-warning" (click)="editRolesModal(user)">{{user.userRoles}}</button></td>
-            <td>{{user.lastActive}}</td>
-            <td><button class="btn btn-warning" (click)="lockUnlock(user)">{{ IsLockedout(user.lockoutEnd) ? 'Lock' : 'Unlock' }}</button></td>
-            <td><button class="btn btn-warning" (click)="editRolesModal(user)">Edit</button></td>
-            <td><button class="btn btn-danger" (click)="deleteUser(user)">Delete</button></td>
+            <td>{{user.lastActive|timeAgo}}</td>
+            <td><button class="btn btn-warning" (click)="lockUnlock(user)">
+              <span [className]="IsLockedout(user.lockoutEnd)?'fa fa-unlock':'glyphicon glyphicon-lock'"></span>{{ IsLockedout(user.lockoutEnd) ?'' : '' }}</button></td>
+            <td><button class="btn btn-warning" (click)="editUser(user.id,user)"><span class="glyphicon glyphicon-edit"></span></button></td>
+            <td><button class="btn btn-danger" (click)="deleteUser(user)"> <span class="glyphicon glyphicon-trash"></span></button></td>
           </tr>
+        </tbody>
         </table>
       </div>
   </div>

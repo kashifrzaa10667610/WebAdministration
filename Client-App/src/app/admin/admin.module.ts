@@ -12,6 +12,10 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserlistResolver } from './_resolvers/userlist.resolver';
 import {ButtonsModule} from 'ngx-bootstrap/buttons'
+import { TimeAgoExtendsPipePipe } from '../_pipes/time-ago-extend-pipe';
+import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
+import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
+
 
 @NgModule({
   imports: [CommonModule, 
@@ -22,18 +26,23 @@ import {ButtonsModule} from 'ngx-bootstrap/buttons'
   BsDropdownModule.forRoot(),
   ButtonsModule.forRoot(),
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  
 ],
   declarations: [
     AdminPanelComponent,
     RolesManagementComponent,
     UserManagementComponent,
     RolesModalComponent,
-    
+    TimeAgoExtendsPipePipe,
+    AddUserModalComponent,
+    EditUserModalComponent
+  
   ],
   providers:[UserlistResolver],
   entryComponents: [
-    RolesModalComponent
+    RolesModalComponent,
+    AddUserModalComponent
  ],
 })
 export class AdminModule { }

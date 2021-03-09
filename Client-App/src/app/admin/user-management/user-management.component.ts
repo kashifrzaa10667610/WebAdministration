@@ -1,11 +1,15 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UserRoutingModule } from 'src/app/user/user-routing/user-routing.module';
 import { PaginatedResult, Pagination } from 'src/app/_models/pagination';
+import { Role } from 'src/app/_models/role';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AddUserModalComponent } from '../add-user-modal/add-user-modal.component';
+import { EditUserModalComponent } from '../edit-user-modal/edit-user-modal.component';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 
 @Component({
@@ -14,16 +18,10 @@ import { RolesModalComponent } from '../roles-modal/roles-modal.component';
   styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
-
   users: User[];
+  availableRoles: Array<{name:string, value:string}>=[]
   bsModalRef: BsModalRef;
   user: User = JSON.parse(localStorage.getItem('user'));
-  roleList = [
-    {value:'Admin',display:'Admin'},
-    {value: 'Member', display: 'Member'},
-    {value: 'VIP', display: 'VIP'},
-    {value:'HelpDesk', display:'HelpDesk'}
-  ];
   userParams: any = {};
   pagination: Pagination;
 
@@ -44,6 +42,7 @@ export class UserManagementComponent implements OnInit {
     this.userParams.orderBy = 'lastActive';
   
     this.getUseraWithRoles();
+    this.getRoles();
   }
 
   // getUseraWithRoles() {
@@ -74,6 +73,35 @@ export class UserManagementComponent implements OnInit {
 
   }
 
+  addUserModel()
+  {
+    this.bsModalRef=this.modalService.show(EditUserModalComponent,{});
+    this.bsModalRef.content.createSelectedUser.subscribe((user:User)=>
+    {
+      this.adminService.creteUser(user)
+      .subscribe(response=>console.log(response),
+      error=>this.alertifyService.error(error),)
+    //need to create method in service;
+    })
+  }
+
+  editUser(id,user)
+  {   
+    console.log(user.id+'from editusermethod');
+    const initialState={
+      id,
+      user
+    }
+    this.bsModalRef=this.modalService.show(AddUserModalComponent,{initialState});
+    this.bsModalRef.content.updateSelectedUser.subscribe((value)=>
+    {
+       this.adminService.updateuserbyId(value.id, value).subscribe(result=>
+        {
+          console.log(result);
+        })
+    })
+  }
+
   editRolesModal(user: User) {
     const initialState = {
       user,
@@ -96,12 +124,14 @@ export class UserManagementComponent implements OnInit {
   private getRolesArray(user: User) {
     const roles = [];
     const userRoles = user.userRoles;
-    const availableRoles: any[] = [
-      {name: 'Admin', value: 'Admin'},
-      {name: 'Moderator', value: 'Moderator'},
-      {name: 'Member', value: 'Member'},
-      {name: 'VIP', value: 'VIP'}
-    ];
+    // const availableRoles: any[] = [
+    //    {name: 'Admin', value: 'Admin'},
+    //    {name: 'Moderator', value: 'Moderator'},
+    //    {name: 'Member', value: 'Member'},
+    //    {name: 'VIP', value: 'VIP'}
+    
+    // ];
+    const availableRoles:any[]=this.availableRoles;
     availableRoles.forEach(role => {
       let isMatch = false;
       userRoles.forEach(userRole => {
@@ -154,6 +184,17 @@ export class UserManagementComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  getRoles()
+  {
+    this.adminService.getRols()
+    .subscribe((data:Role[])=>
+    {
+      data.forEach(element => {
+      this.availableRoles.push({name:element.name,value:element.name});
+      });
+    });
+    return this.availableRoles;
   }
 
 }

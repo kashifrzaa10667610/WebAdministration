@@ -1,0 +1,72 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Create</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+   <div class="row">
+     <div class="col col-md-6">
+  
+      <form [formGroup]="contactForm"  novalidate>
+        <p>
+          
+          <input type="text" id="username" name="username" formControlName="username" placeholder="UserName">
+        </p>
+        <p>
+          
+          <input type="text" id="email" name="email" formControlName="email" placeholder="Email">
+        </p>
+
+        <p>
+          
+          <input type="text" id="gender" name="gender" formControlName="gender" placeholder="Gender">
+        </p>
+
+    
+        <p>
+       
+          <input type="text" id="city" name="city" formControlName="city" placeholder="City">
+        </p>
+        <p>
+        <p>
+       
+          <input type="text" id="country" name="country" formControlName="country" placeholder="Country">
+        </p>
+        
+       
+       
+        
+      </form>
+  
+     </div>
+  
+  
+  
+     <div class="col col-md-6">
+      <!-- <div class="card" style="width: 18rem;">
+        <span class="glyphicon glyphicon-user"></span>
+        <div class="card-body">
+          <h5 class="card-title"><span>UserName: </span>{{userdata.username}}</h5>
+          <h5 class="card-title"><span>Email: </span>{{userdata.email}}</h5>
+          <h5 class="card-title"><span>Gender: </span>{{userdata.gender}}</h5>
+          <h5 class="card-title">{{userdata.lastActive|timeAgo}}</h5>
+          <p class="card-title">{{userdata.introduction}}</p>  
+        </div>
+      </div> -->
+      
+     </div>
+   </div>
+    
+     
+  
+  
+  
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-success" (click)="createUser()">Submit</button>
+      <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+      
+  </div>

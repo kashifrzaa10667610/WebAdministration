@@ -17,6 +17,8 @@ namespace WebAdministration.Dtos
         public DateTime Created { get; set; }
         public string City { get; set; }
         public DateTime LastActive { get; set; }
+        public string PhoneNumber{get;set;}
+        public string Introduction{get;set;}
         public string Country { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
         public ICollection<string> userRoles { get; set; }

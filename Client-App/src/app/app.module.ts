@@ -13,6 +13,8 @@ import { ErrorInterceptorProvider } from './_interceptors/error.interceptor';
 import { HttpRequestInterceptorProvider } from './_interceptors/http-request.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
 
+
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -25,7 +27,8 @@ export function tokenGetter() {
     HeaderComponent,
     FooterComponent,
     HasRoleDirective,
-    HasRoleDirective
+    HasRoleDirective,
+
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ export function tokenGetter() {
     })
    ],
   providers: [ErrorInterceptorProvider,HttpRequestInterceptorProvider],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }
