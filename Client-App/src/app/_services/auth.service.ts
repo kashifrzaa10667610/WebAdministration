@@ -24,11 +24,13 @@ export class AuthService {
       map((response: any) => {
         const user = response;
         if (user) {
-          console.log(user);
+          this.decodedToken = this.jwtHelper.decodeToken(user.token);
           localStorage.setItem("token", user.token);
           localStorage.setItem("user", JSON.stringify(user.user));
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser = user.user;
+          //console.log("decoded token")
+          console.log(this.decodedToken);
         }
       })
     );
@@ -47,7 +49,7 @@ export class AuthService {
 
   roleMatch(allowedRoles: Array<String>): boolean {
     let isMatch = false;
-    const userRoles = this.decodedToken.role as Array<String>;
+    const userRoles = JSON.parse(localStorage.getItem("user")).userRoles as Array<String>;
     allowedRoles.forEach(element => {
       if (userRoles.includes(element)) {
         isMatch = true;

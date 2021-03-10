@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminModule } from './admin/admin.module';
+import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './_guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,11 +17,16 @@ const routes: Routes = [
   },
   {
     path: "admin",
-    loadChildren: () => import("./admin/admin.module").then(m => m.AdminModule)
+    //canActivate:[AuthGuard],
+    loadChildren: () => import("./admin/admin.module").then(m => m.AdminModule),
+    //loadChildren:()=>AdminModule,
+    
+   
   },
   {
     path: "auth",
-    loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+    //loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule)
+    loadChildren:() =>AuthModule
   },
   {
     path: "user",

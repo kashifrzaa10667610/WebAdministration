@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="navbar-header">
         <button
@@ -18,19 +18,36 @@
           <li class="nav-item active" routerLinkActive="active">
             <a class="nav-link" [routerLink]="['/']">Home</a>
           </li>
-          <li class="nav-item" routerLinkActive="active">
+          <li *appRootRole="['Admin','HelpDesk']" class="nav-item" routerLinkActive="active">
             <a class="nav-link" [routerLink]="['/admin']">Admin</a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/auth/signup']">Signup</a>
+            <a *ngIf="!loggedIn()" class="nav-link" [routerLink]="['/auth/signup']">Signup</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/auth']">Signin</a>
+            <a *ngIf="!loggedIn()" class="nav-link" [routerLink]="['/auth']">Signin</a>
           </li>
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link">Signout</a>
+          <li>
+            <div *ngIf="loggedIn()" class="dropdown " style="margin: 15px;padding-right: 30px;" dropdown>
+              <span class="glyphicon glyphicon-user">
+                
+              </span>
+              <a class="dropdown-toggle text-light" dropdownToggle (click)="false"><strong> {{user.username}}</strong>
+              </a>
+            
+              <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item" (click)="editProfile()"><i class="fa fa-user"></i> Edit Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
+              </div>
+            </div>
           </li>
         </ul>
+        <div>
+
+
+          
+        </div>
       </div>
     </nav>
   </div>

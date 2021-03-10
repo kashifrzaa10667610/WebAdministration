@@ -11,10 +11,10 @@ const routes: Routes = [
   {
     path: "",
     component: UserPanelComponent,
-    children: [
-      { path: "edit/:id", component: EditDetailComponent },
-      { path: "detail/:id", component: UserDetailComponent }
-    ]
+    // children: [
+    //   { path: "edit/:id", component: EditDetailComponent },
+    //   { path: "detail/:id", component: UserDetailComponent }
+    // ]
   }
 ];
 @NgModule({

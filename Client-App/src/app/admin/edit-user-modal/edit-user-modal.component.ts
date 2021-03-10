@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 export class EditUserModalComponent implements OnInit {
 
   userdata:any;
+  user:User;
   id: number;
   contactForm:FormGroup;
   @Output() createSelectedUser = new EventEmitter();

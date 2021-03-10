@@ -1,11 +1,12 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { AuthService } from './_services/auth.service';
+import { AuthService } from '../_services/auth.service';
 
 @Directive({
-  selector: '[appHasRole]'
+  selector: '[appRootRole]'
 })
-export class HasRoleDirective {
-  @Input() appHasRole: string[];
+export class RootRoleDirective {
+
+  @Input() appRootRole: string[];
 
   isVisible = false;
   constructor(
@@ -27,7 +28,7 @@ export class HasRoleDirective {
       return;
     }
 
-    if (this.authService.roleMatch(this.appHasRole)) {
+    if (this.authService.roleMatch(this.appRootRole)) {
       if (!this.isVisible) {
         this.isVisible = true;
         this.viewContainerRef.createEmbeddedView(this.templateRed);

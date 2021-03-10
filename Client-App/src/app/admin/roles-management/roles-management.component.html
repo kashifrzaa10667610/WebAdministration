@@ -1,1 +1,23 @@
-<p>roles-management works!</p>
+<table class="table " style="width:100%">
+    <thead>
+        <tr>
+            <th>RoleID</th>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let role of availableRoles">
+            
+                <td><button class="btn btn-link">{{role.id}}</button></td>
+                <td>{{role.name}}</td>
+                <td><button class="btn btn-link" (click)="editRole(role.name)"><span class="glyphicon glyphicon-edit"></span></button></td>
+                <td><button class="btn btn-link" (click)="deleteRole(role)"> <span class="glyphicon glyphicon-trash"></span></button></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td>
+            <button class="btn btn-secondary" style = "margin-top:10px; margin-left: 8px;" (click)="addRole()"><span class="glyphicon glyphicon-plus"></span></button><td></td>
+          </tr>
+    </tbody>
+</table>

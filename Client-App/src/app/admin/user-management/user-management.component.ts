@@ -44,13 +44,6 @@ export class UserManagementComponent implements OnInit {
     this.getUseraWithRoles();
     this.getRoles();
   }
-
-  // getUseraWithRoles() {
-  //   this.adminService.getUsersWithRoles().subscribe(
-  //     (users: User[]) => this.users = users,
-  //     error => this.alertifyService.error(error)
-  //   );
-  // }
   getUseraWithRoles() {
     console.log("hello");
     this.adminService
@@ -124,13 +117,6 @@ export class UserManagementComponent implements OnInit {
   private getRolesArray(user: User) {
     const roles = [];
     const userRoles = user.userRoles;
-    // const availableRoles: any[] = [
-    //    {name: 'Admin', value: 'Admin'},
-    //    {name: 'Moderator', value: 'Moderator'},
-    //    {name: 'Member', value: 'Member'},
-    //    {name: 'VIP', value: 'VIP'}
-    
-    // ];
     const availableRoles:any[]=this.availableRoles;
     availableRoles.forEach(role => {
       let isMatch = false;

@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{message}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    
+   <div class="row">
+     <div class="col col-md-6">
+  
+      <form [formGroup]="contactForm"  novalidate>
+        <p>
+          
+          <input type="text" id="rolename" name="rolename" formControlName="rolename" placeholder="RoleName">
+        </p>
+      
+     
+      </form>
+  
+     </div>
+
+     <div class="col col-md-6">      
+     </div>
+   </div>
+    
+     
+  
+  
+  
+  </div>
+  <div class="modal-footer">
+    
+    <button type="button" class="btn btn-success" (click)="createRole()">Submit</button>
+      <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+      
+  </div>

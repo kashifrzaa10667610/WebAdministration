@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import { Role } from '../_models/role';
 
 
 @Injectable({
@@ -51,18 +52,14 @@ export class AdminService {
   }
 
 
-
-
- 
-
-  createRole(role:{})
+  createRole(role:Role)
   {
      return this.http.post(this.baseUrl+ 'admin/createRole/',role);
   }
   
   deleteRole(rolename)
   {
-    return this.http.delete(this.baseUrl+'admin/deleteRole/', rolename);
+    return this.http.delete(this.baseUrl+'admin/deleteRole/'+ rolename);
   }
   lockUnlock(user:User)
   {

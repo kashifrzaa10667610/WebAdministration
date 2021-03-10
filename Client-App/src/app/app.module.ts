@@ -8,10 +8,17 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import {HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HasRoleDirective } from './has-role.directive';
 import { ErrorInterceptorProvider } from './_interceptors/error.interceptor';
 import { HttpRequestInterceptorProvider } from './_interceptors/http-request.interceptor';
 import { JwtModule } from '@auth0/angular-jwt';
+import { RootRoleDirective } from './_directives/root-role.directive';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimeAgoExtendsPipePipe } from './_pipes/time-ago-extend-pipe';
 
 
 
@@ -26,8 +33,9 @@ export function tokenGetter() {
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    HasRoleDirective,
-    HasRoleDirective,
+    RootRoleDirective,
+    //HasRoleDirective,
+    
 
   ],
   imports: [
@@ -35,6 +43,13 @@ export function tokenGetter() {
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
+      ButtonsModule.forRoot(),
+      PaginationModule.forRoot(),
+      TabsModule.forRoot(),
+      ModalModule.forRoot(),
+      
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

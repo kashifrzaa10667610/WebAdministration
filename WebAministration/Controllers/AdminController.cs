@@ -47,7 +47,7 @@ namespace WebAdministration.Controllers
         }
         
 
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
         [HttpGet("getRoles")]
         public  async Task<IActionResult> GetRoles()
         {

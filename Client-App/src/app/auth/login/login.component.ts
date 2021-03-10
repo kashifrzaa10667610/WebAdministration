@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 
@@ -11,12 +11,18 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class LoginComponent implements OnInit {
 
   model: any = {};
-
+  retUrl:string="home"
   constructor(private authService:AuthService,
     private alertifyService: AlertifyService,
-    private router: Router) { }
+    private router: Router,
+    private activatedRoute:ActivatedRoute) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParamMap
+                .subscribe(params => {this.retUrl = params.get('retUrl');
+                 });
+    console.log(this.retUrl);             
+  }
 
   login() {
     this.authService.login(this.model).subscribe(
@@ -27,7 +33,8 @@ export class LoginComponent implements OnInit {
         this.alertifyService.error(error);
       },
       () => {
-        this.router.navigate(['/home']);
+       
+          this.router.navigate( ['home']);
       }
     );
   }

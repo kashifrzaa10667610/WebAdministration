@@ -15,16 +15,22 @@ import {ButtonsModule} from 'ngx-bootstrap/buttons'
 import { TimeAgoExtendsPipePipe } from '../_pipes/time-ago-extend-pipe';
 import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { RouterModule } from '@angular/router';
+import { HasRoleDirective } from '../has-role.directive';
+import { AddRoleModalComponent } from './add-role-modal/add-role-modal.component';
 
 
 @NgModule({
   imports: [CommonModule, 
   AdminRoutingModule,
-  ModalModule.forRoot(),
-  TabsModule.forRoot(),
-  PaginationModule.forRoot(),
   BsDropdownModule.forRoot(),
+  BsDatepickerModule.forRoot(),
   ButtonsModule.forRoot(),
+  PaginationModule.forRoot(),
+  TabsModule.forRoot(),
+  ModalModule.forRoot(),
+  RouterModule,
   FormsModule,
   ReactiveFormsModule,
   
@@ -36,12 +42,16 @@ import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.compon
     RolesModalComponent,
     TimeAgoExtendsPipePipe,
     AddUserModalComponent,
-    EditUserModalComponent
-  
+    EditUserModalComponent,
+    HasRoleDirective,
+    AddRoleModalComponent,
+    //AdminHelpdeskRoleDirective 
   ],
   providers:[UserlistResolver],
   entryComponents: [
     RolesModalComponent,
+    AddRoleModalComponent,
+    EditUserModalComponent,
     AddUserModalComponent
  ],
 })
