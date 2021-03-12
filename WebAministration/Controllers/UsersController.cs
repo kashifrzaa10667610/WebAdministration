@@ -11,6 +11,7 @@ using WebAdministration.Data;
 using WebAdministration.Dtos;
 using WebAdministration.Helpers;
 using WebAdministration.Models;
+using WebAdministration.Models.ErrorModel;
 
 namespace WebAdministration.Controllers
 {
@@ -50,7 +51,10 @@ namespace WebAdministration.Controllers
                 var userToReturn = _mapper.Map<UserForDetailedDto>(user);
                 return Ok(userToReturn);
             }
-            return Unauthorized();    
+            return Unauthorized(new Error
+            {
+                Message = "Failed..! You are not allowed",
+            });    
         }
 
         [Authorize("Require-Member-Admin-HelpDesk-Role")]
@@ -65,7 +69,10 @@ namespace WebAdministration.Controllers
                 var userToReturn = _mapper.Map<UserForDetailedDto>(user);
                 return Ok(userToReturn);
             }
-            return Unauthorized();
+            return Unauthorized(new Error
+            {
+                Message = "Failed..! You are not allowed",
+            });
         }
 
         [Authorize("Require-Admin-Member-Role")]
@@ -82,7 +89,10 @@ namespace WebAdministration.Controllers
                     return NoContent();
                 throw new Exception($"Updating user {id} failed on save");
             }
-            return Unauthorized();
+            return Unauthorized(new Error
+            {
+                Message = "Failed..! You are not allowed",
+            });
                 
         }
         // [Authorize]

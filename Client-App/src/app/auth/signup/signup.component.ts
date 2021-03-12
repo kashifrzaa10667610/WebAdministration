@@ -38,19 +38,18 @@ export class SignupComponent implements OnInit {
     this.formBuilder.group(
       {
         
-        username: ["", Validators.required],
+        username: ["", [Validators.required,Validators.pattern("^[a-zA-Z0-9 ]*$")]],
         password: [
           "",
           [
             Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(8)
+
           ]
         ],
         confirmPassword: ["", Validators.required],
-        gender: ["male"],
-        name: ["", Validators.required],
-        email:["", Validators.required],
+        gender: ["male",Validators.required],
+        name: [""],
+        email:["", [Validators.required,Validators.email]],
         dateOfBirth: ["", Validators.required],
         city: ["", Validators.required],
         country: ["", Validators.required],

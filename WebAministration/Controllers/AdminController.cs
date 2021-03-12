@@ -12,6 +12,7 @@ using AutoMapper;
 using WebAdministration.Helpers;
 using System.Security.Claims;
 using System.Collections.Generic;
+using WebAdministration.Models.ErrorModel;
 
 namespace WebAdministration.Controllers
 {
@@ -34,7 +35,7 @@ namespace WebAdministration.Controllers
 
             IMapper mapper,
             IUserRepository repo)
-            
+
         {
             _context = context;
             _userManager = userManager;
@@ -43,25 +44,25 @@ namespace WebAdministration.Controllers
             _mapper = mapper;
             _repo = repo;
 
-            
+
         }
-        
+
 
         [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
         [HttpGet("getRoles")]
-        public  async Task<IActionResult> GetRoles()
+        public async Task<IActionResult> GetRoles()
         {
-           var roles=await _roleManager.Roles.ToListAsync();
-           var listob=new List<RoleListDto>();
-           foreach(Role r in roles)
-           {
-               listob.Add(new RoleListDto
-               {
-                   Id=r.Id,
-                   Name=r.Name
-               });
-           }
-           return Ok(listob);
+            var roles = await _roleManager.Roles.ToListAsync();
+            var listob = new List<RoleListDto>();
+            foreach (Role r in roles)
+            {
+                listob.Add(new RoleListDto
+                {
+                    Id = r.Id,
+                    Name = r.Name
+                });
+            }
+            return Ok(listob);
         }
 
         [Authorize(Policy = "Require-Admin-HelpDesk-Role")]
@@ -88,6 +89,13 @@ namespace WebAdministration.Controllers
         public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
         {
             var user = await _userManager.FindByNameAsync(userName);
+            if(user==null || user.Name=="Admin")
+            {
+                return BadRequest(new Error
+                {
+                    Message = "Failed..! user does not exit or you cannot edit role of admin"
+                });
+            }
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -97,34 +105,37 @@ namespace WebAdministration.Controllers
             var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
 
             if (!result.Succeeded)
-                return BadRequest("Failed to add to roles");
+                return BadRequest(result.Errors);
 
             result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
 
             if (!result.Succeeded)
-                return BadRequest("Failed to remove the roles");
-            var userToReturn=_mapper.Map<UserForDetailedDto>(user);
-            var userrole=await _userManager.GetRolesAsync(user);
-            userToReturn.userRoles=userrole;
+                return BadRequest(result.Errors);
+            var userToReturn = _mapper.Map<UserForDetailedDto>(user);
+            var userrole = await _userManager.GetRolesAsync(user);
+            userToReturn.userRoles = userrole;
             return Ok(userToReturn);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("createRole")]
-        public async Task<IActionResult> CreateRole( RoleCreateDto roleCreateDto)
+        public async Task<IActionResult> CreateRole(RoleCreateDto roleCreateDto)
         {
             var roles = _roleManager.Roles.ToList();
             var newRole = roleCreateDto.RoleName;
             foreach (var availrole in roles)
             {
-                if(string.Equals(availrole.Name,newRole))
+                if (string.Equals(availrole.Name, newRole))
                 {
-                   return BadRequest("Failed 'Role exitst");
+                    return BadRequest(new Error
+                    {
+                        Message = "Failed..! Role Exist",
+                    });
                 }
-                
+
             }
-           // var rles=_roleManager.Roles.ToList();
-           // var item =await _userManager.GetUsersInRoleAsync();
+            // var rles=_roleManager.Roles.ToList();
+            // var item =await _userManager.GetUsersInRoleAsync();
             await _roleManager.CreateAsync(new Role { Name = newRole });
             return Ok(_mapper.Map<IEnumerable<RoleListDto>>(_roleManager.Roles.ToList()));
 
@@ -135,11 +146,18 @@ namespace WebAdministration.Controllers
         public async Task<IActionResult> DeleteRole(string roleName)
         {
             var role = await _roleManager.FindByNameAsync(roleName);
-            if (role==null) 
+            if (role == null)
             {
-                return BadRequest("Role deos not exist");
+                return NotFound(new Error
+                {
+                    Message = "Failed..! role does not exist",
+                });
             }
-            await _roleManager.DeleteAsync(role);
+            var result = await _roleManager.DeleteAsync(role);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
             return Ok(_mapper.Map<IEnumerable<RoleListDto>>(_roleManager.Roles.ToList()));
 
         }
@@ -149,24 +167,35 @@ namespace WebAdministration.Controllers
         public async Task<IActionResult> LockUnlock(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            
-            if (user == null)
-                return NotFound();
-          
 
-            if( user.LockoutEnd!=null && user.LockoutEnd>DateTime.Now)
+            if (user == null || user.UserName == "Admin")
+                return BadRequest(new Error
+                {
+                    Message = "Failed..! user does not exist|| you cannot delete admin user",
+                });
+
+
+            if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
             {
                 user.LockoutEnd = null;
-           
-                await _userManager.UpdateAsync(user);
-               
+
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+
 
                 return Ok(user);
             }
             else
             {
-                user.LockoutEnd=DateTime.Now.AddYears(1000);
-                await _userManager.UpdateAsync(user);
+                user.LockoutEnd = DateTime.Now.AddYears(1000);
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
                 return Ok(user);
             }
 
@@ -174,12 +203,18 @@ namespace WebAdministration.Controllers
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("createuser")]
         public async Task<IActionResult> CreateUser(UserCreteDto userCreateDto)
-                {
-            
+        {
+
             var userToCreate = _mapper.Map<User>(userCreateDto);
-
+            var userindb = await _userManager.FindByNameAsync(userToCreate.UserName);
+            if (userindb != null)
+            {
+                return BadRequest(new Error
+                {
+                    Message = "Failed..! user already exist",
+                });
+            }
             var result = await _userManager.CreateAsync(userToCreate, userCreateDto.Password);
-
             var userToReturn = _mapper.Map<UserForDetailedDto>(userToCreate);
             if (result.Succeeded)
             {
@@ -203,15 +238,27 @@ namespace WebAdministration.Controllers
         [HttpDelete("deleteUser/{userName}")]
         public async Task<IActionResult> DeleteUser(string userName)
         {
-        var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(userName);
 
-        IdentityResult result = await _userManager.DeleteAsync(user);
-        if (result.Succeeded)
-        {
-          // return RedirectToAction("GetUsersWithRole");
-            return Ok(userName+" account deleted ");
-        }
-        return NotFound("user does not exist");    
+            if (user == null || user.UserName == "Admin")
+            {
+                return BadRequest(new Error
+                {
+                    Message = "Failed..! user does not exist or you cannot delete admin user",
+                });
+
+            }
+            IdentityResult result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new Error
+                {
+                    Message = "Failed..! user is not deledted"
+                });
+
+            }
+            return Ok(userName + " account deleted ");
+
         }
     }
 }

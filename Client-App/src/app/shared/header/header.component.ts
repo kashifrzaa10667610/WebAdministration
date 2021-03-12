@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { EditDetailComponent } from 'src/app/user/edit-detail/edit-detail.component';
+import { AddUserModalComponent } from 'src/app/admin/add-user-modal/add-user-modal.component';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -44,13 +44,13 @@ export class HeaderComponent implements OnInit {
     id:this.user.id,
     user:this.user
   }
-  this.bsModalRef=this.modalService.show(EditDetailComponent,{initialState});
+  this.bsModalRef=this.modalService.show(AddUserModalComponent,{initialState});
   this.bsModalRef.content.updateSelectedUser.subscribe((value)=>
-  {
-     this.adminService.updateuserbyId(value.id, value).subscribe(result=>
-      {
-        console.log(result);
-      })
-  })
-}
+    {
+       this.adminService.updateuserbyId(value.id, value).subscribe(result=>
+        {
+          console.log(result);
+        })
+    });
+ }
 }

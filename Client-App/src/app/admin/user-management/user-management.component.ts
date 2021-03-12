@@ -68,6 +68,10 @@ export class UserManagementComponent implements OnInit {
 
   addUserModel()
   {
+    const initialState={
+      id:'',
+      user:{}
+    };
     this.bsModalRef=this.modalService.show(EditUserModalComponent,{});
     this.bsModalRef.content.createSelectedUser.subscribe((user:User)=>
     {
@@ -80,7 +84,7 @@ export class UserManagementComponent implements OnInit {
 
   editUser(id,user)
   {   
-    console.log(user.id+'from editusermethod');
+    //console.log(user.id+'from editusermethod');
     const initialState={
       id,
       user
@@ -108,7 +112,7 @@ export class UserManagementComponent implements OnInit {
       if (rolesToUpdate) {
         this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(
           () => user.userRoles = [...rolesToUpdate.roleNames],
-          (error) => this.alertifyService.error(error)
+          (error) => {this.alertifyService.error(error);}
         );
       }
     });
@@ -150,7 +154,11 @@ export class UserManagementComponent implements OnInit {
       {
         this.user===user;
       },
-      error => this.alertifyService.error(error));
+      error => {
+        console.log(error);
+        this.alertifyService.error(error.message);
+      }
+      );
 
   }
   deleteUser(user:User)

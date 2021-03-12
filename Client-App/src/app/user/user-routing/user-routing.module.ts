@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { EditDetailComponent } from '../edit-detail/edit-detail.component';
 import { UserPanelComponent } from '../user-panel/user-panel.component';
-import { UserDetailComponent } from '../user-detail/user-detail.component';
-
 
 
 const routes: Routes = [

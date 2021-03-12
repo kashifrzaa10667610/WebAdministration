@@ -43,21 +43,43 @@ export class AddUserModalComponent implements OnInit {
   {
       this.contactForm = new FormGroup({
       id:new FormControl(''),
-      name:new FormControl(''),
-      phonenumber:new FormControl(''),
+      name:new FormControl('',[Validators.required,Validators.minLength(6),Validators.maxLength(100)]),
+      phonenumber:new FormControl('',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]),
       introduction:new FormControl(''),
-  
-      country: new FormControl(''),
-      city:new FormControl(''),
+      country: new FormControl('',[Validators.required]),
+      city:new FormControl('',[Validators.required]),
       
     })
   
   }
+
   updateuser() {
     this.updateSelectedUser.emit(this.contactForm.value);
     this.bsModalRef.hide();
   }
 
+
+  get name() {
+    return this.contactForm.get('name');
+  } 
+ 
+  get phonenumber() {
+    return this.contactForm.get('phonenumber');
+  } 
+ 
+  get city() {
+    return this.contactForm.get('city');
+  } 
+ 
+  get country() {
+    return this.contactForm.get('country');
+  } 
+  get introduction()
+  {
+    return this.contactForm.get('introduction');
+  }
+ 
+  
 }
  
  

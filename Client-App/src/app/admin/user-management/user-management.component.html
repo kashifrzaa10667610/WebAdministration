@@ -1,4 +1,4 @@
-<div class="text-left mt-3">
+  <div class="text-left mt-3">
 
     <h4 class="text-warning"><strong>USERS - {{pagination.totalItems}}</strong></h4>
   </div>
@@ -6,28 +6,28 @@
     <form class="form-inline" #form="ngForm" (ngSubmit)="getUseraWithRoles()" novalidate>
         
       
-        <div class="form-group px-2">
+        <div class="form-group px-2 col-md-6 col-sm-12 col-xs-12 margin-top">
           <select class="form-control ml-1" style="width: 130px" 
             id="role" name="role"  [(ngModel)]="userParams.role">
             <option *ngFor="let role of availableRoles" [value]="role.value">
               {{role.name}}
             </option>
           </select>
-        </div>
-        <button type="submit" class="btn btn-light" style="margin-left:10px">Apply Filters</button>
+          <button type="submit" class="btn btn-light" style="margin-left:10px">Apply Filters</button>
         <button type="button" class="btn btn-dark" style="margin-left:10px"
-          (click)="resetFilter()"
-          >Reset Filter</button>
-          <div style="margin-left: 450px;" class="form-group px-3">
-            <div class="btn-group float-right">
-              <button type="button" name="orderBy" style="margin-right: 10px;" class="btn btn-light" 
-                btnRadio="lastActive" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
-              >Last Active</button>
-              <button type="button" name="orderBy" class="btn btn-light" 
-                btnRadio="created" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
-              >Newest Members</button>
-            </div>
-          </div>        
+          (click)="resetFilter()">Reset Filter</button>
+        </div>
+        
+        <div class="form-group px-3 col-md-6 col-sm-12 col-xs-12 margin-right" >
+          <div class="btn-group float-right">
+            <button type="button" name="orderBy" style="margin-right: 10px;" class="btn btn-light" 
+              btnRadio="lastActive" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
+            >Last Active</button>
+            <button type="button" name="orderBy" class="btn btn-light" 
+              btnRadio="created" [(ngModel)]="userParams.orderBy" (click)="getUseraWithRoles()"
+            >Newest Members</button>
+          </div>
+        </div>        
       </form>
       <br> 
       <br> 

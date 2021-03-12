@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
@@ -29,12 +29,12 @@ export class EditUserModalComponent implements OnInit {
   {
       this.contactForm = new FormGroup({
 
-      username:new FormControl('helo'),
-      email:new FormControl(''),
-      gender:new FormControl(''),
+      username:new FormControl('',[Validators.required,Validators.pattern("^[a-zA-Z0-9 ]*$")]),
+      email:new FormControl('',[Validators.required,Validators.email]),
+      gender:new FormControl('',Validators.required),
       name:new FormControl(''),
-      city:new FormControl(''),      
-      country: new FormControl(''),
+      city:new FormControl('',Validators.required),      
+      country: new FormControl('',Validators.required),
       
     })
   
@@ -43,7 +43,25 @@ export class EditUserModalComponent implements OnInit {
     this.createSelectedUser.emit(this.contactForm.value);
     this.bsModalRef.hide();
   }
-
+  get username() {
+    return this.contactForm.get('username');
+  } 
+ 
+  get email() {
+    return this.contactForm.get('email');
+  } 
+  get gender()
+  {
+    return this.contactForm.get('gender');
+  }
+ 
+  get city() {
+    return this.contactForm.get('city');
+  } 
+ 
+  get country() {
+    return this.contactForm.get('country');
+  } 
 }
  
  

@@ -19,7 +19,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Identity;
 using WebAdministration.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using FluentValidation.AspNetCore;
+using WebAdministration.Filters;
 
 namespace WebAdministration
 {
@@ -112,7 +113,13 @@ namespace WebAdministration
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
+                options.Filters.Add<DTORequestValidationFilter>();
             })
+                .AddFluentValidation(mvcConfiguration =>
+                {
+                    mvcConfiguration.RegisterValidatorsFromAssemblyContaining<Startup>();
+                })
+                   
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddJsonOptions(o =>
                 {
